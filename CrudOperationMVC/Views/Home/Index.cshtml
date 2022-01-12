@@ -1,0 +1,167 @@
+﻿@model CrudOperationMVC.Models.RegistrationModel
+@{
+    ViewBag.Title = "Home Page";
+}
+
+@using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    if (ViewBag.msg != null)
+    {
+        <script>
+            alert("@ViewBag.msg")
+        </script>
+    }
+
+    <div class="popover-content" style="display:block;margin:auto;height:700px;width:800px;">
+
+
+        <div class="form-group">
+            <label>Name</label>
+            @Html.ValidationMessageFor(m => m.name)
+            
+            @Html.TextBoxFor(m => m.name, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.ValidationMessageFor(m => m.Email)
+
+            <label>Email</label>
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label>Passwosrd</label>
+            @Html.ValidationMessageFor(m => m.Password)
+
+            @Html.TextBoxFor(m => m.Password, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label>ConfirmPasswosrd</label>
+            @Html.ValidationMessageFor(m => m.ConfirmPassword)
+
+            @Html.TextBoxFor(m => m.ConfirmPassword, new { @class = "form-control" });
+        </div>
+        <div class="form-group">
+            <label>Gender</label>
+            <label>Male @Html.RadioButtonFor(m => m.Gender, "Male")</label>
+            <label>Female @Html.RadioButtonFor(m => m.Gender, "Female")</label>
+            @Html.ValidationMessageFor(m => m.Gender)
+            
+
+        </div>
+        <div class="form-group">
+            @Html.ListBoxFor(m=>m.)
+            @Html.ValidationMessageFor(m => m.Gender)
+
+
+        </div>
+        <div class="form-group">
+            <label>Age</label>
+            @Html.TextBoxFor(m => m.Age, new { @class = "form-control" })
+
+            @Html.ValidationMessageFor(m => m.Age)
+
+
+        </div>
+        <div class="form-group" style="display:inline-flex;">
+
+            <label>BirthDate</label>
+            @Html.DropDownListFor(m => m.Date, new List<SelectListItem> {
+       new SelectListItem {Text="---Date---",Value=""},
+       new SelectListItem {Text="1",Value="1" },
+       new SelectListItem {Text="2",Value="2" },
+       new SelectListItem {Text="3",Value="3" },
+       new SelectListItem {Text="4",Value="4" },
+
+
+   })
+            @Html.ValidationMessageFor(m => m.Date);
+
+            <div class="">
+                @Html.DropDownListFor(m => m.Month, new List<SelectListItem> {
+       new SelectListItem {Text="Month",Value="" },
+       new SelectListItem {Text="1",Value="1" },
+
+       new SelectListItem {Text="2",Value="2" },
+       new SelectListItem {Text="3",Value="3" },
+       new SelectListItem {Text="4",Value="4" },
+       new SelectListItem {Text="5",Value="5" },
+   })
+                @Html.ValidationMessageFor(m => m.Month);
+
+            </div>
+            <div class="form-group">
+                @Html.DropDownListFor(m => m.Year, new List<SelectListItem> {
+       new SelectListItem {Text="Year",Value=""},
+       new SelectListItem {Text="1991",Value="1991" },
+       new SelectListItem {Text="1992",Value="1992" },
+       new SelectListItem {Text="1993",Value="1993" },
+       new SelectListItem {Text="1994",Value="1994" },
+       new SelectListItem {Text="1995",Value="1995" },
+
+   })
+                @Html.ValidationMessageFor(m => m.Year);
+
+            </div>
+        </div>
+     
+        <div class="form-group">
+            <label>Image</label>
+            @Html.ValidationMessageFor(m => m.img);
+
+            @Html.TextBoxFor(m => m.img, new { Type = "file", @class = "form-control" })
+            @Html.HiddenFor(m => m.showimg);
+            @if (ViewBag.showimg != null)
+            {
+                <img src="@Url.Content(@ViewBag.showimg)" height="100" width="100" />
+
+            }
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-success" name="btn1" id="btn1" />
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <table class="table table-bordered   table-hover">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th>Gender</th>
+                <th>Dob</th>
+                <th>Images</th>
+                <th>Rdate</th>
+                <th>Operation</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var data in ViewData["filldata"] as List<CrudOperationMVC.Models.RegistrationModel>)
+            {
+                <tr>
+                    <td>@data.Id</td>
+                    <td>@data.name</td>
+                    <td>@data.Email</td>
+                    <td>@data.Password</td>
+                    <td>@data.Gender</td>
+                    <td>@data.Dob</td>
+                    <td><img src="@Url.Content(data.showimg)" height="100" width="100" /></td>
+                    <td>@data.Rdate</td>
+                    <td>@Html.ActionLink("Edit", "Index/" + data.Id) <a href="@Url.Action("Delete/"+data.Id,"Home")" onclick="return confirm('Are You Sure Want to Delete Data?')">Delete</a></td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+
+        
+
+}
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
